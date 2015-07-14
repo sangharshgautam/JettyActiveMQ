@@ -4,7 +4,7 @@
 	version="3.0">
 
   <display-name>Jetty ActveMQ</display-name>
-  <servlet>
+<!--   <servlet>
   	<servlet-name>MessagePublishingServlet</servlet-name>
   	<servlet-class>com.webspherenotes.jms.MessagePublishingServlet</servlet-class>
   	<load-on-startup>1</load-on-startup>
@@ -28,5 +28,5 @@
     <message-destination-type>org.apache.activemq.command.ActiveMQQueue</message-destination-type>
     <message-destination-usage>Produces</message-destination-usage>
     <message-destination-link>jms/FooQueue</message-destination-link>
-  </message-destination-ref>
+  </message-destination-ref> -->
 </web-app>

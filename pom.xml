@@ -7,6 +7,9 @@
 	<name>WhatsApp API for Java</name>
 	<description>Simple App to demonstrate AcitiveMQ in Jetty</description>
 	<packaging>war</packaging>
+	<properties>
+		<activemq-version>5.11.1</activemq-version>
+	</properties>
 	<dependencies>
 		<dependency>
 		    <groupId>javax.servlet</groupId>
@@ -15,23 +18,33 @@
 		</dependency>
 		<dependency>
 			<groupId>org.apache.activemq</groupId>
-			<artifactId>activemq-core</artifactId>
-			<version>5.5.0</version>
+			<artifactId>activemq-all</artifactId>
+			<version>${activemq-version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-log4j12</artifactId>
-			<version>1.5.11</version>
+			<version>1.7.12</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-jms</artifactId>
-			<version>3.0.3.RELEASE</version>
+			<version>4.1.7.RELEASE</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.xbean</groupId>
 			<artifactId>xbean-spring</artifactId>
-			<version>3.9</version>
+			<version>4.1</version>
+		</dependency>
+		<!-- <dependency>
+		    <groupId>org.apache.geronimo.specs</groupId>
+		    <artifactId>geronimo-jms_1.1_spec</artifactId>
+		    <version>1.1.1</version>
+		</dependency> -->
+		<dependency>
+		    <groupId>org.hsqldb</groupId>
+		    <artifactId>hsqldb</artifactId>
+		    <version>2.3.3</version>
 		</dependency>
 	</dependencies>
 	<build>
@@ -41,8 +54,8 @@
 			    <artifactId>maven-compiler-plugin</artifactId>
 			    <version>3.3</version>
 			    <configuration>
-			    	<source>1.5</source>
-			    	<target>1.5</target>
+			    	<source>1.7</source>
+			    	<target>1.7</target>
 			    </configuration>
 			</plugin>
 			<!-- <plugin>
@@ -59,34 +72,66 @@
 			<plugin>
 				<groupId>org.eclipse.jetty</groupId>
 			    <artifactId>jetty-maven-plugin</artifactId>
-			    <version>9.2.10.v20150310</version>
+			    <version>9.3.0.v20150612</version>
    				<configuration>
+   					<useTestClasspath>true</useTestClasspath>
 					<scanIntervalSeconds>2</scanIntervalSeconds>
-					<contextXml>${basedir}/src/main/webapp/WEB-INF/web.xml</contextXml>
+					<!-- <contextXml>${project.basedir}/src/main/webapp/WEB-INF/jetty-context.xml</contextXml> -->
 					<webApp>
 						<jettyEnvXml>${basedir}/src/main/resources/jetty-env.xml</jettyEnvXml>
 					</webApp>
 				</configuration>
-
 			</plugin>
-			
 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-shade-plugin</artifactId>
-				<version>2.4</version>
-				<executions>
-					<execution>
-						<phase>package</phase>
-						<goals>
-							<goal>shade</goal>
-						</goals>
-						<configuration>
-							<shadedArtifactAttached>true</shadedArtifactAttached>
-							<shadedClassifierName>all</shadedClassifierName>
-						</configuration>
-					</execution>
-				</executions>
+			    <groupId>org.apache.activemq.tooling</groupId>
+			    <artifactId>activemq-maven-plugin</artifactId>
+			    <version>${activemq-version}</version>
+			    <configuration>
+			    	<!-- <configUri>xbean:file:conf/activemq.xml</configUri> -->
+			    	<systemUsage>
+					    <systemUsage sendFailIfNoSpace="true">
+					        <memoryUsage>
+					            <memoryUsage limit="1450"/>
+					        </memoryUsage>
+					        <storeUsage>
+					            <storeUsage limit="10 gb"/>
+					        </storeUsage>
+					        <tempUsage>
+					            <tempUsage limit="10 gb"/>
+					        </tempUsage>
+					    </systemUsage>
+					</systemUsage>
+			    </configuration>
+			    <dependencies>
+		          <dependency>
+						<groupId>org.springframework</groupId>
+						<artifactId>spring-jms</artifactId>
+						<version>4.1.7.RELEASE</version>
+					</dependency>
+					<dependency>
+						<groupId>org.apache.xbean</groupId>
+						<artifactId>xbean-spring</artifactId>
+						<version>4.1</version>
+					</dependency>
+					<dependency>
+					    <groupId>org.apache.activemq</groupId>
+					    <artifactId>activemq-jaas</artifactId>
+					    <version>${activemq-version}</version>
+					</dependency>
+		        </dependencies>
 			</plugin>
+			<!-- <plugin>
+	            <groupId>org.codehaus.mojo</groupId>
+	            <artifactId>exec-maven-plugin</artifactId>
+	            <version>1.4.0</version>
+	            <configuration>
+	                <executable>mvn</executable>
+	                <arguments>
+	                    <argument>activemq:run</argument>
+	                    <argument>jetty:run</argument>
+	                </arguments>
+	            </configuration>
+	        </plugin> -->
 		</plugins>
 	</build>
 	

@@ -15,18 +15,18 @@
   	<url-pattern>/MessagePublishingServlet/*</url-pattern>
   </servlet-mapping>
   
-  <resource-ref>
-  	<description>JMS Connection</description>
-  	<res-ref-name>jms/ConnectionFactory</res-ref-name>
-  	<res-type>javax.jms.Connectionfactory</res-type>
-  	<res-auth>Container</res-auth>
-  	<res-sharing-scope>Shareable</res-sharing-scope>
+<resource-ref>
+    <description>JMS Connection</description>
+    <res-ref-name>jms/ConnectionFactory</res-ref-name>
+    <res-type>org.apache.activemq.ActiveMQConnectionFactory</res-type>
+    <res-auth>Container</res-auth>
+    <res-sharing-scope>Shareable</res-sharing-scope>
   </resource-ref>
-  
+
   <message-destination-ref>
-  	<message-destination-ref-name>jms/FooQueue</message-destination-ref-name>
-  	<message-destination-type>javax.jms.Queue</message-destination-type>
-  	<message-destination-usage>Produces</message-destination-usage>
-  	<message-destination-link>jms/FooQueue</message-destination-link>
+    <message-destination-ref-name>jms/FooQueue</message-destination-ref-name>
+    <message-destination-type>org.apache.activemq.command.ActiveMQQueue</message-destination-type>
+    <message-destination-usage>Produces</message-destination-usage>
+    <message-destination-link>jms/FooQueue</message-destination-link>
   </message-destination-ref>
 </web-app>

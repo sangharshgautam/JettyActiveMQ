@@ -1,28 +1,33 @@
-<?xml version="1.0"  encoding="ISO-8859-1"?>
-<!-- <!DOCTYPE Configure PUBLIC "-//Mort Bay Consulting//DTD Configure//EN" "http://www.eclipse.org/jetty/configure.dtd"> -->
-<Configure id="webAppCtx" class="org.eclipse.jetty.webapp.WebAppContext">
-
+<!DOCTYPE Configure PUBLIC "-//Mort Bay Consulting//DTD Configure//EN" "http://www.eclipse.org/jetty/configure_9_0.dtd">
+<Configure id="wac" class="org.eclipse.jetty.webapp.WebAppContext">
  
-  <New id='jms-webapp-wac'  class='org.eclipse.jetty.webapp.WebAppContext'>
+  <New id="DSTest" class="org.eclipse.jetty.plus.jndi.Resource">
+    <Arg>jdbc/test</Arg>
     <Arg>
-    	<Ref id='jms-webapp-wac' />
+      <New class="org.hsqldb.jdbc.JDBCDataSource">
+        <Set name="DatabaseName">mem:foo</Set>
+        <Set name="User">SA</Set>
+      </New>
+    </Arg>
+  </New>
+  <New id="connectionFactory" class="org.eclipse.jetty.plus.jndi.Resource">
+    <Arg>
+      <Ref id='jms-webapp-wac' />
     </Arg>
     <Arg>jms/ConnectionFactory</Arg>
     <Arg>
-    	<New class='org.apache.activemq.ActiveMQConnectionFactory'>
-    		<Arg>tcp://localhost:61616</Arg>
-    	</New>
+      <New class="org.apache.activemq.ActiveMQConnectionFactory">
+        <Arg>tcp://localhost:61616</Arg>
+      </New>
     </Arg>
   </New>
- 
-  <New id='FooQueue'  class='org.eclipse.jetty.plus.jndi.Resource'>
+  
+  <New id="fooQueue" class="org.eclipse.jetty.plus.jndi.Resource">
     <Arg>jms/FooQueue</Arg>
     <Arg>
-    	<New class='org.apache.activemq.command.ActiveMQQueue'>
-    		<Arg>FOO.QUEUE</Arg>
-    	</New>
+      <New class="org.apache.activemq.command.ActiveMQQueue">
+        <Arg>FOO.QUEUE</Arg>
+      </New>
     </Arg>
-    <Arg type='boolean'>true</Arg>
   </New>
- 
-</Configure>
+</Configure> 
